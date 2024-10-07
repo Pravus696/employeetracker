@@ -10,7 +10,7 @@ INSERT INTO department (id, name) VALUES
 (8, 'Customer Service'),
 (9, 'Research and Development'),
 (10, 'Quality Assurance')
-ON CONFLICT (id, name) DO NOTHING;
+ON CONFLICT (name) DO NOTHING;
 
 -- inserting data to role table --
 INSERT INTO role (id, title, salary, department_id) VALUES
@@ -22,16 +22,16 @@ INSERT INTO role (id, title, salary, department_id) VALUES
 (6, 'Marketing Manager', 140000, 6),
 (7, 'HR Manager', 110000, 7),
 (8, 'Customer Service Manager', 100000, 8),
-(9, 'Research and Development Manager', 120000, 9),
+(9, 'Research & Development Manager', 120000, 9),
 (10, 'Quality Assurance Manager', 110000, 10),
 (12, 'Sales Associate', 120000, 4),
 (13, 'IT Associate', 90000, 5),
 (14, 'Marketing Associate', 125000, 6),
 (15, 'HR Associate', 100000, 7),
 (16, 'Customer Service Associate', 80000, 8),
-(17, 'Research and Development Associate', 90000, 9),
+(17, 'Research & Development Associate', 90000, 9),
 (18, 'Quality Assurance Associate', 90000, 10)
-ON CONFLICT (id, title, salary, department_id) DO NOTHING;
+ON CONFLICT (title) DO NOTHING;
 
 -- inserting data to employee table --
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES
@@ -52,5 +52,5 @@ INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES
 (15, 'Jax', 'Doe', 16, 19),
 (16, 'Jade', 'Doe', 17, 20),
 (17, 'Jax', 'Doe', 18, 21)
-ON CONFLICT (id, first_name, last_name, role_id, manager_id) DO NOTHING;
+ON CONFLICT (id) DO NOTHING;
 
