@@ -28,3 +28,10 @@ CREATE TABLE employee (
     role_id INTEGER NOT NULL,
     manager_id INTEGER
 );
+
+CREATE TABLE manager (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    manager_id INTEGER
+);

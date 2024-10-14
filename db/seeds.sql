@@ -36,21 +36,31 @@ ON CONFLICT (title) DO NOTHING;
 -- inserting data to employee table --
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES
 (1, 'John', 'Doe', 1, 5),
-(2, 'Jane', 'Doe', 2, 6),
+(2, 'Jane', 'Doe', 2, 5),
 (3, 'Jack', 'Doe', 3, 7),
-(4, 'Jill', 'Doe', 4, 8),
+(4, 'Jill', 'Doe', 4, 6),
 (5, 'James', 'Doe', 5, 9),
 (6, 'Jenny', 'Doe', 6, 10),
 (7, 'Jared', 'Doe', 7, 11),
-(8, 'Jasmine', 'Doe', 8, 12),
+(8, 'Jasmine', 'Doe', 8, 6),
 (9, 'Jasper', 'Doe', 9, 13),
-(10, 'Jade', 'Doe', 10, 14),
-(11, 'Jax', 'Doe', 12, 15),
-(12, 'Jade', 'Doe', 13, 16),
-(13, 'Jax', 'Doe', 14, 17),
-(14, 'Jade', 'Doe', 15, 18),
-(15, 'Jax', 'Doe', 16, 19),
-(16, 'Jade', 'Doe', 17, 20),
-(17, 'Jax', 'Doe', 18, 21)
+(10, 'Jade', 'Doe', 14, 6),
+(11, 'Jax', 'Doe', 12, 4),
+(12, 'Jade', 'Doe', 13, 5),
+(13, 'Jax', 'Doe', 14, 6),
+(14, 'Jade', 'Doe', 15, 7),
+(15, 'Jax', 'Doe', 16, 8),
+(16, 'Jade', 'Doe', 17, 9),
+(17, 'Jax', 'Doe', 18, 10)
 ON CONFLICT (id) DO NOTHING;
 
+-- inserting data to manager table --
+INSERT INTO manager (id, first_name, last_name, manager_id) VALUES
+(4, 'Jill', 'Doe', 4),
+(5, 'James', 'Doe', 5),
+(6, 'Jenny', 'Doe', 6),
+(7, 'Jared', 'Doe', 7),
+(8, 'Jasmine', 'Doe', 8),
+(9, 'Jasper', 'Doe', 9),
+(10, 'Jade', 'Doe', 14)
+ON CONFLICT (id) DO NOTHING;

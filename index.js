@@ -90,7 +90,7 @@ pool = await inquirer.prompt([
             updateEmployeeRole();
             break;
         case 'Exit':
-            pool.end();
+            exitApp();
             break;
     }
 };
