@@ -12,6 +12,7 @@
     "pg": "^8.13.0",
     "pool": "^0.4.1"
   },
+  
   "license": "MIT",
   "devDependencies": {
     "typescript": "^5.4.5"
