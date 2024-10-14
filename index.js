@@ -45,6 +45,7 @@ figlet.text('Employee\nTracking System', {
     startApp(pool);
 });
 
+
 async function startApp(pool) {
 // initial prompt to user (view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role)
 pool = await inquirer.prompt([
@@ -94,20 +95,72 @@ pool = await inquirer.prompt([
     }
 };
 
+
 // function to view all departments
 async function viewDepartments() {
     const res = await pool.query('SELECT * FROM department');
     console.table(res.rows);
+    // prompt to go back or exit
+    const back = [
+        {
+            type: 'list',
+            name: 'back',
+            message: 'Would you like to go back?',
+            choices: ['Back', 'Exit']
+        }
+    ];
+     inquirer.prompt(back)
+    .then((answer) => {
+        if (answer.back === 'Back') {
+            startApp(pool);
+        } else {
+            exitApp();
+        }
+    });
 }
 // function to view roles
 async function viewRoles() {
     const res = await pool.query('SELECT role.id, role.title, role.salary, department.name AS department FROM role JOIN department ON role.department_id = department.id');
     console.table(res.rows);
+    // prompt to go back or exit
+    const back = [
+        {
+            type: 'list',
+            name: 'back',
+            message: 'Would you like to go back?',
+            choices: ['Back', 'Exit']
+        }
+    ];
+     inquirer.prompt(back)
+    .then((answer) => {
+        if (answer.back === 'Back') {
+            startApp(pool);
+        } else {
+            exitApp();
+        }
+    });
 }
 // function to view employees
 async function viewEmployees() {
     const res = await client.query('SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, manager.first_name AS manager_first_name, manager.last_name AS manager_last_name FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id LEFT JOIN employee AS manager ON employee.manager_id = manager.id');
     console.table(res.rows);
+    // prompt to go back or exit
+    const back = [
+        {
+            type: 'list',
+            name: 'back',
+            message: 'Would you like to go back?',
+            choices: ['Back', 'Exit']
+        }
+    ];
+     inquirer.prompt(back)
+    .then((answer) => {
+        if (answer.back === 'Back') {
+            startApp(pool);
+        } else {
+            exitApp();
+        }
+    });
 }
 // function to add a department
 async function addDepartment() {
@@ -116,6 +169,23 @@ async function addDepartment() {
     ]);
     await pool.query('INSERT INTO department (name) VALUES ($1)', [name]);
     console.log('Department added successfully');
+    // prompt to go back or exit
+    const back = [
+        {
+            type: 'list',
+            name: 'back',
+            message: 'Would you like to go back?',
+            choices: ['Back', 'Exit']
+        }
+    ];
+     inquirer.prompt(back)
+    .then((answer) => {
+        if (answer.back === 'Back') {
+            startApp(pool);
+        } else {
+            exitApp();
+        }
+    });
 }
 // function to add a role
 async function addRole() {
@@ -128,6 +198,23 @@ async function addRole() {
     ]);
     await pool.query('INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)', [answers.title, answers.salary, answers.department_id]);
     console.log('Role added successfully');
+    // prompt to go back or exit
+    const back = [
+        {
+            type: 'list',
+            name: 'back',
+            message: 'Would you like to go back?',
+            choices: ['Back', 'Exit']
+        }
+    ];
+     inquirer.prompt(back)
+    .then((answer) => {
+        if (answer.back === 'Back') {
+            startApp(pool);
+        } else {
+            exitApp();
+        }
+    });
 }
 // function to add an employee
 async function addEmployee() {
@@ -144,6 +231,23 @@ async function addEmployee() {
     ]);
     await pool.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)', [answers.first_name, answers.last_name, answers.role_id, answers.manager_id]);
     console.log('Employee added successfully');
+    // prompt to go back or exit
+    const back = [
+        {
+            type: 'list',
+            name: 'back',
+            message: 'Would you like to go back?',
+            choices: ['Back', 'Exit']
+        }
+    ];
+     inquirer.prompt(back)
+    .then((answer) => {
+        if (answer.back === 'Back') {
+            startApp(pool);
+        } else {
+            exitApp();
+        }
+    });
 }
 // function to update an employee role
 async function updateEmployeeRole() {
@@ -157,6 +261,23 @@ async function updateEmployeeRole() {
     ]);
     await pool.query('UPDATE employee SET role_id = $1 WHERE id = $2', [answers.role_id, answers.employee_id]);
     console.log('Employee role updated successfully');
+    // prompt to go back or exit
+    const back = [
+        {
+            type: 'list',
+            name: 'back',
+            message: 'Would you like to go back?',
+            choices: ['Back', 'Exit']
+        }
+    ];
+     inquirer.prompt(back)
+    .then((answer) => {
+        if (answer.back === 'Back') {
+            startApp(pool);
+        } else {
+            exitApp();
+        }
+    });
 }
 
 
@@ -167,3 +288,13 @@ app.use((req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+
+const exitApp = async () => {
+    console.clear(); // Clears the console
+    console.log("Application has ended. You can now use the terminal normally.");
+    console.log("Press Ctrl+C to fully exit the Node.js process if needed.");
+    
+    // Remove all listeners to allow normal terminal input
+    process.stdin.removeAllListeners('data');
+}
