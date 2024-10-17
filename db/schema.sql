@@ -6,25 +6,34 @@ CREATE DATABASE employeetracker_db;
 -- makes all following code affect the employeetracker_db database --
 \c employeetracker_db;
 
+-- drop table for department --
+DROP TABLE IF EXISTS department;
+
 --create table for department --
 CREATE TABLE department (
     id SERIAL PRIMARY KEY,
     name VARCHAR(30) UNIQUE NOT NULL
 );
 
+-- drop table for role --
+DROP TABLE IF EXISTS role;
+
 -- create table for role --
 CREATE TABLE role (
     id SERIAL PRIMARY KEY,
     title VARCHAR(50) UNIQUE NOT NULL,
-    salary DECIMAL NOT NULL,
+    salary INTEGER NOT NULL,
     department VARCHAR(30) NOT NULL
 );
+-- drop table for employee --
+DROP TABLE IF EXISTS employee;
 
 -- create table for employee --
 CREATE TABLE employee (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
-    role_id INTEGER NOT NULL,
-    manager VARCHAR(30)
+    role VARCHAR(30) NOT NULL,
+    manager VARCHAR(30),
+    dept VARCHAR(30) NOT NULL
 );
