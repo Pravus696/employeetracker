@@ -169,10 +169,9 @@ async function viewEmployees() {
 // function to add a department
 async function addDepartment() {
     const answers = await inquirer.prompt([
-        { type: "input", name: "id", message: "Enter department id:" },
         { type: "input", name: "name", message: "Enter department name:" },
     ]);
-    await pool.query("INSERT INTO department (id, name) VALUES ($1, $2)", [answers.id, answers.name]);
+    await pool.query("INSERT INTO department (name) VALUES ($1)", [answers.name]);
     console.log('Department added successfully');
   // prompt to go back or exit
   const back = [
@@ -193,26 +192,28 @@ async function addDepartment() {
 }
 // function to add a role
 async function addRole() {
-  const departments = await pool.query("SELECT id, name FROM department");
-  const departmentChoices = departments.rows.map((dept) => ({
-    name: dept.name,
-    value: dept.id,
-  }));
-  const answers = await inquirer.prompt([
-    { type: "input", name: "title", message: "Enter role title:" },
-    { type: "input", name: "salary", message: "Enter role salary:" },
-    {
-      type: "list",
-      name: "department_id",
-      message: "Select department:",
-      choices: departmentChoices,
-    },
-  ]);
-  await pool.query(
-    "INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)",
-    [answers.title, answers.salary, answers.department_id]
-  );
-  console.log("Role added successfully");
+    const departments = await pool.query("SELECT name FROM department");
+    const departmentChoices = departments.rows.map((department) => ({
+        name: department.name
+    }));
+    
+    const answers = await inquirer.prompt([
+        { type: "input", name: "title", message: "Enter role title:" },
+        { type: "input", name: "salary", message: "Enter role salary:" },
+        {
+            type: "list",
+            name: "department",
+            message: "Select department:",
+            choices: departmentChoices,
+        },
+    ]);
+    
+    await pool.query(
+        "INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)",
+        [answers.title, answers.salary, answers.department]
+    );
+    
+    console.log("Role added successfully");
   // prompt to go back or exit
   const back = [
     {
@@ -250,7 +251,7 @@ async function addEmployee() {
     { type: "input", name: "last_name", message: "Enter last name:" },
     {
       type: "list",
-      name: "role_id",
+      name: "role",
       message: "Select role:",
       choices: roleChoices,
     },
