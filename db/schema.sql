@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS department;
 
 --create table for department --
 CREATE TABLE department (
-    id SERIAL PRIMARY KEY,
     name VARCHAR(30) UNIQUE NOT NULL
 );
 
@@ -20,7 +19,6 @@ DROP TABLE IF EXISTS role;
 
 -- create table for role --
 CREATE TABLE role (
-    id SERIAL PRIMARY KEY,
     title VARCHAR(50) UNIQUE NOT NULL,
     salary INTEGER NOT NULL,
     department VARCHAR(30) NOT NULL

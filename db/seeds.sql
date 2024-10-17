@@ -1,29 +1,29 @@
 -- inserting data to department table --
-INSERT INTO department (id, name) VALUES
-(1, 'Production'),
-(2, 'Quality Assurance'),
-(3, 'Marketing'),
-(4, 'Human Resources'),
-(5, 'Finance'),
-(6, 'IT'),
-(7, 'Administration')
+INSERT INTO department (name) VALUES
+('Production'),
+('Quality Assurance'),
+('Marketing'),
+('Human Resources'),
+('Finance'),
+('IT'),
+('Administration')
 ON CONFLICT (name) DO NOTHING;
 
 -- inserting data to role table --
-INSERT INTO role (id, title, salary, department) VALUES
-(1, 'Production Lead', 100000, 1),
-(2, 'Quality Lead', 80000, 2),
-(3, 'Marketing Lead', 90000, 3),
-(4, 'HR Manager', 70000, 4),
-(5, 'Finance Manager', 95000, 5),
-(6, 'IT Manager', 110000, 6),
-(7, 'CEO', 150000, 7),
-(8, 'Production Associate', 50000, 1),
-(9, 'Quality Associate', 40000, 2),
-(10, 'Marketing Associate', 45000, 3),
-(11, 'HR Associate', 60000, 4),
-(12, 'Financial Expert', 85000, 5),
-(13, 'IT Tech', 70000, 6)
+INSERT INTO role (title, salary, department) VALUES
+('Production Lead', 100000, 'Production'),
+('Quality Lead', 80000, 'Quality Assurance'),
+('Marketing Lead', 90000, 'Marketing'),
+('HR Manager', 70000, 'Human Resources'),
+('Finance Manager', 95000, 'Finance'),
+('IT Manager', 110000, 'IT'),
+('CEO', 150000, 'Administration'),
+('Production Associate', 50000, 'Production'),
+('Quality Associate', 40000, 'Quality Assurance'),
+('Marketing Associate', 45000, 'Marketing'),
+('HR Associate', 60000, 'Human Resources'),
+('Financial Expert', 85000, 'Finance'),
+('IT Tech', 70000, 'IT')
 ON CONFLICT (title) DO NOTHING;
 
 -- inserting data to employee table --
