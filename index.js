@@ -192,7 +192,7 @@ async function addDepartment() {
 }
 // function to add a role
 async function addRole() {
-    const departments = await pool.query("SELECT name FROM department");
+    const departments = await pool.query("SELECT * FROM department");
     const departmentChoices = departments.rows.map((department) => ({
         name: department.name
     }));
@@ -209,7 +209,7 @@ async function addRole() {
     ]);
     
     await pool.query(
-        "INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)",
+        "INSERT INTO role (title, salary, department) VALUES ($1, $2, $3)",
         [answers.title, answers.salary, answers.department]
     );
     
