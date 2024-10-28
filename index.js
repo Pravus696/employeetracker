@@ -168,11 +168,11 @@ async function viewEmployees() {
 }
 // function to add a department
 async function addDepartment() {
-    const answers = await inquirer.prompt([
-        { type: "input", name: "name", message: "Enter department name:" },
-    ]);
-    await pool.query("INSERT INTO department (name) VALUES ($1)", [answers.name]);
-    console.log('Department added successfully');
+  const answers = await inquirer.prompt([
+    { type: "input", name: "name", message: "Enter department name:" },
+  ]);
+  await pool.query("INSERT INTO department (name) VALUES ($1)", [answers.name]);
+  console.log("Department added successfully");
   // prompt to go back or exit
   const back = [
     {
@@ -192,28 +192,28 @@ async function addDepartment() {
 }
 // function to add a role
 async function addRole() {
-    const departments = await pool.query("SELECT * FROM department");
-    const departmentChoices = departments.rows.map((department) => ({
-        name: department.name
-    }));
-    
-    const answers = await inquirer.prompt([
-        { type: "input", name: "title", message: "Enter role title:" },
-        { type: "input", name: "salary", message: "Enter role salary:" },
-        {
-            type: "list",
-            name: "department",
-            message: "Select department:",
-            choices: departmentChoices,
-        },
-    ]);
-    
-    await pool.query(
-        "INSERT INTO role (title, salary, department) VALUES ($1, $2, $3)",
-        [answers.title, answers.salary, answers.department]
-    );
-    
-    console.log("Role added successfully");
+  const departments = await pool.query("SELECT * FROM department");
+  const departmentChoices = departments.rows.map((department) => ({
+    name: department.name,
+  }));
+
+  const answers = await inquirer.prompt([
+    { type: "input", name: "title", message: "Enter role title:" },
+    { type: "input", name: "salary", message: "Enter role salary:" },
+    {
+      type: "list",
+      name: "department",
+      message: "Select department:",
+      choices: departmentChoices,
+    },
+  ]);
+
+  await pool.query(
+    "INSERT INTO role (title, salary, department) VALUES ($1, $2, $3)",
+    [answers.title, answers.salary, answers.department]
+  );
+
+  console.log("Role added successfully");
   // prompt to go back or exit
   const back = [
     {
@@ -273,7 +273,13 @@ async function addEmployee() {
   ]);
   await pool.query(
     "INSERT INTO employee (first_name, last_name, role, manager, dept) VALUES ($1, $2, $3, $4, $5)",
-    [answers.first_name, answers.last_name, answers.role, answers.manager, answers.dept]
+    [
+      answers.first_name,
+      answers.last_name,
+      answers.role,
+      answers.manager,
+      answers.dept,
+    ]
   );
   console.log("Employee added successfully");
   // prompt to go back or exit
@@ -295,16 +301,17 @@ async function addEmployee() {
 }
 // function to update an employee role
 async function updateEmployeeRole() {
-  const employees = await client.query(
+  const employees = await pool.query(
     "SELECT id, first_name, last_name FROM employee"
   );
   const employeeChoices = employees.rows.map((emp) => ({
     name: `${emp.first_name} ${emp.last_name}`,
     value: emp.id,
   }));
-  const roles = await client.query("SELECT id, title FROM role");
+  const roles = await pool.query("SELECT title, department FROM role");
   const roleChoices = roles.rows.map((role) => ({
     name: role.title,
+    dept: role.department,
   }));
   const answers = await inquirer.prompt([
     {
@@ -320,8 +327,10 @@ async function updateEmployeeRole() {
       choices: roleChoices,
     },
   ]);
-  await pool.query("UPDATE employee SET role = $1 WHERE id = $2", [
+  const selectedRole = roles.rows.find((role) => role.title === answers.role);
+  await pool.query("UPDATE employee SET role = $1, dept = $2 WHERE id = $3", [
     answers.role,
+    selectedRole.department,
     answers.employee_id,
   ]);
   console.log("Employee role updated successfully");
