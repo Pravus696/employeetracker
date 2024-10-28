@@ -26,20 +26,24 @@ INSERT INTO role (title, salary, department) VALUES
 ('IT Tech', 70000, 'IT')
 ON CONFLICT (title) DO NOTHING;
 
+-- Alter the employee table to add the id column --
+ALTER TABLE employee
+ADD COLUMN id SERIAL PRIMARY KEY;
+
 -- inserting data to employee table --
-INSERT INTO employee (id, first_name, last_name, role, manager, dept) VALUES
-(1, 'John', 'Doe', 'CEO', NULL, 'Administration'),
-(2, 'Jane', 'Doe', 'HR Manager', 'John Doe', 'Human Resources'),
-(3, 'John', 'Smith', 'Production Lead', 'John Doe', 'Production'),
-(4, 'Jane', 'Smith', 'Quality Lead', 'John Doe', 'Quality Assurance'),
-(5, 'John', 'Johnson', 'Marketing Lead', 'John Doe', 'Marketing'),
-(6, 'Jane', 'Johnson', 'HR Associate', 'Jane Smith', 'Human Resources'),
-(7, 'John', 'Williams', 'Finance Manager', 'John Doe', 'Finance'),
-(8, 'Jane', 'Williams', 'IT Manager', 'Jane Johnson', 'IT'),
-(9, 'John', 'Brown', 'Production Associate', 'John Smith', 'Production'),
-(10, 'Jane', 'Brown', 'Financial Expert', 'Jane Williams', 'Finance'),
-(11, 'John', 'Jones', 'Marketing Associate', 'John Johnson', 'Marketing'),
-(12, 'Jane', 'Jones', 'HR Associate', 'Jane Doe', 'Human Resources'),
-(13, 'John', 'Davis', 'Production Associate', 'John Smith', 'Production'),
-(14, 'Jane', 'Davis', 'IT Tech', 'Jane Williams', 'IT')
+INSERT INTO employee (first_name, last_name, role, manager, dept) VALUES
+('John', 'Doe', 'CEO', NULL, 'Administration'),
+('Jane', 'Doe', 'HR Manager', 'John Doe', 'Human Resources'),
+('John', 'Smith', 'Production Lead', 'John Doe', 'Production'),
+('Jane', 'Smith', 'Quality Lead', 'John Doe', 'Quality Assurance'),
+('John', 'Johnson', 'Marketing Lead', 'John Doe', 'Marketing'),
+('Jane', 'Johnson', 'HR Associate', 'Jane Smith', 'Human Resources'),
+('John', 'Williams', 'Finance Manager', 'John Doe', 'Finance'),
+('Jane', 'Williams', 'IT Manager', 'Jane Johnson', 'IT'),
+('John', 'Brown', 'Production Associate', 'John Smith', 'Production'),
+('Jane', 'Brown', 'Financial Expert', 'Jane Williams', 'Finance'),
+('John', 'Jones', 'Marketing Associate', 'John Johnson', 'Marketing'),
+('Jane', 'Jones', 'HR Associate', 'Jane Doe', 'Human Resources'),
+('John', 'Davis', 'Production Associate', 'John Smith', 'Production'),
+('Jane', 'Davis', 'IT Tech', 'Jane Williams', 'IT')
 ON CONFLICT (id) DO NOTHING;
