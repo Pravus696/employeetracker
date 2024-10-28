@@ -233,19 +233,22 @@ async function addRole() {
 }
 // function to add an employee
 async function addEmployee() {
-  const roles = await pool.query("SELECT id, title FROM role");
+  const roles = await pool.query("SELECT title FROM role");
   const roleChoices = roles.rows.map((role) => ({
     name: role.title,
-    value: role.id,
   }));
   const employees = await pool.query(
-    "SELECT id, first_name, last_name FROM employee"
+    "SELECT first_name, last_name, role FROM employee"
   );
   const managerChoices = employees.rows.map((emp) => ({
     name: `${emp.first_name} ${emp.last_name}`,
-    value: emp.id,
+    role: emp.role,
   }));
   managerChoices.unshift({ name: "None", value: null });
+  const department = await pool.query("SELECT department FROM role");
+  const deptChoices = department.rows.map((dept) => ({
+    name: dept.department,
+  }));
   const answers = await inquirer.prompt([
     { type: "input", name: "first_name", message: "Enter first name:" },
     { type: "input", name: "last_name", message: "Enter last name:" },
@@ -257,14 +260,20 @@ async function addEmployee() {
     },
     {
       type: "list",
-      name: "manager_id",
+      name: "manager",
       message: "Select manager:",
       choices: managerChoices,
     },
+    {
+      type: "list",
+      name: "dept",
+      message: "Select despartment:",
+      choices: deptChoices,
+    },
   ]);
   await pool.query(
-    "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)",
-    [answers.first_name, answers.last_name, answers.role_id, answers.manager_id]
+    "INSERT INTO employee (first_name, last_name, role, manager, dept) VALUES ($1, $2, $3, $4, $5)",
+    [answers.first_name, answers.last_name, answers.role, answers.manager, answers.dept]
   );
   console.log("Employee added successfully");
   // prompt to go back or exit
@@ -296,7 +305,6 @@ async function updateEmployeeRole() {
   const roles = await client.query("SELECT id, title FROM role");
   const roleChoices = roles.rows.map((role) => ({
     name: role.title,
-    value: role.id,
   }));
   const answers = await inquirer.prompt([
     {
@@ -307,13 +315,13 @@ async function updateEmployeeRole() {
     },
     {
       type: "list",
-      name: "role_id",
+      name: "role",
       message: "Select new role:",
       choices: roleChoices,
     },
   ]);
-  await pool.query("UPDATE employee SET role_id = $1 WHERE id = $2", [
-    answers.role_id,
+  await pool.query("UPDATE employee SET role = $1 WHERE id = $2", [
+    answers.role,
     answers.employee_id,
   ]);
   console.log("Employee role updated successfully");
